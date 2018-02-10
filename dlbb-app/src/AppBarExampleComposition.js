@@ -14,24 +14,28 @@ class Login extends Component {
 
   render() {
     return (
-      <FlatButton {...this.props} label="Login" />
+      <MuiThemeProvider>
+        <FlatButton {...this.props} label="Login" />
+      </MuiThemeProvider>
     );
   }
 }
 
 const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-    <MenuItem primaryText="Refresh" />
-    <MenuItem primaryText="Help" />
-    <MenuItem primaryText="Sign out" />
-  </IconMenu>
+  <MuiThemeProvider>
+    <IconMenu
+      {...props}
+      iconButtonElement={
+        <IconButton><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{horizontal: 'right', vertical: 'top'}}
+      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+    >
+      <MenuItem primaryText="Refresh" />
+      <MenuItem primaryText="Help" />
+      <MenuItem primaryText="Sign out" />
+    </IconMenu>
+  </MuiThemeProvider>
 );
 
 Logged.muiName = 'IconMenu';
@@ -45,6 +49,10 @@ class AppBarExampleComposition extends Component {
     logged: true,
   };
 
+  logIn = () => {
+    this.setState({logged: true});
+  }
+
   handleChange = (event, logged) => {
     this.setState({logged: logged});
   };
@@ -53,18 +61,21 @@ class AppBarExampleComposition extends Component {
     return (
       <div>
         <MuiThemeProvider>
-        <Toggle
-          label="Logged"
-          defaultToggled={true}
-          onToggle={this.handleChange}
-          labelPosition="right"
-          style={{margin: 20}}
-        />
-        <AppBar
-          title="Title"
-          iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-          iconElementRight={this.state.logged ? <Logged /> : <Login />}
-        />
+          <Toggle
+            label="Logged"
+            defaultToggled={true}
+            onToggle={this.handleChange}
+            labelPosition="right"
+            className="log-toggle"
+            toggled={this.state.logged}
+          />
+        </MuiThemeProvider>
+        <MuiThemeProvider>
+          <AppBar
+            title="Title"
+            iconElementLeft={<IconButton><NavigationClose /></IconButton>}
+            iconElementRight={this.state.logged ? <Logged /> : <Login onClick={this.logIn}/>}
+          />
         </MuiThemeProvider> 
       </div>
     );
